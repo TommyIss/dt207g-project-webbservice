@@ -3,7 +3,9 @@
  */
 let express = require('express');
 let cors = require('cors');
+let jwt = require('jsonwebtoken');
 let mealsRoute = require('./routes/mealsRoute');
+let authRoute = require('./routes/authRoute');
 require('dotenv').config();
 
 let app = express();
@@ -14,6 +16,32 @@ app.use(cors());
 
 app.use('/', mealsRoute);
 
+app.use('/', authRoute);
+
+//
+let verifyToken = (req, res, next) => {
+    let authHeader = req.headers['authorization'];
+    let token = authHeader?.split(' ')[1];
+
+    if(!token) {
+        res.status(403).json({ error: 'Ingen token angiven'});
+        return;
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
+        if(err) {
+            res.status(403).json({ error: 'Ogiltig token'});
+            return;
+        }
+        req.user = user;
+        next();
+    });
+};
+
+// Skyddad route
+app.get('/protected', verifyToken, (req, res) => {
+    res.json({ message: 'Du är autentiserad', user: req.user});
+});
 
 app.listen(port, () => {
     console.log('Server körs på port: ' + port);
