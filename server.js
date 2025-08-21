@@ -6,6 +6,7 @@ let cors = require('cors');
 let jwt = require('jsonwebtoken');
 let mealsRoute = require('./routes/mealsRoute');
 let authRoute = require('./routes/authRoute');
+let reservationsRoute = require('./routes/reservationsRoute');
 require('dotenv').config();
 
 let app = express();
@@ -17,6 +18,8 @@ app.use(cors());
 app.use('/', mealsRoute);
 
 app.use('/', authRoute);
+
+app.use('/', reservationsRoute);
 
 //
 let verifyToken = (req, res, next) => {

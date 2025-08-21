@@ -47,3 +47,17 @@ client.query(`
     );    
 `);
 
+client.query(`
+    DROP TABLE IF EXISTS reservations;
+    CREATE TABLE reservations (
+        id SERIAL PRIMARY KEY,
+        guest_name TEXT UNIQUE NOT NULL,
+        phone TEXT UNIQUE NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        guests_number INTEGER NOT NULL,
+        reservation_date DATE NOT NULL,
+        reservation_time TIME NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );    
+`);
+
