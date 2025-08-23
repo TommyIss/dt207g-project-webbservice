@@ -68,7 +68,6 @@ router.get('/meals/type/:type', async(req, res) => {
 router.get('/meals/:id', async(req, res) => {
     let id = req.params.id;
 
-    // Hämta alla maträtter
     client.query(`SELECT * FROM meals WHERE id=$1;`, [id], (err, result) => {
         if(err) {
             res.status(500).json({error: 'Något har gått fel: ' + err});

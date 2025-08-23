@@ -5,6 +5,7 @@ let express = require('express');
 let cors = require('cors');
 let jwt = require('jsonwebtoken');
 let mealsRoute = require('./routes/mealsRoute');
+let drinksRoute = require('./routes/drinksRoute');
 let authRoute = require('./routes/authRoute');
 let reservationsRoute = require('./routes/reservationsRoute');
 require('dotenv').config();
@@ -17,11 +18,13 @@ app.use(cors());
 
 app.use('/', mealsRoute);
 
+app.use('', drinksRoute);
+
 app.use('/', authRoute);
 
 app.use('/', reservationsRoute);
 
-//
+// Funktion för varifiera jwt-token
 let verifyToken = (req, res, next) => {
     let authHeader = req.headers['authorization'];
     let token = authHeader?.split(' ')[1];

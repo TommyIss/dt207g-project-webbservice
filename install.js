@@ -37,6 +37,16 @@ client.query(`
 `);
 
 client.query(`
+    DROP TABLE IF EXISTS drinks;
+    CREATE TABLE drinks(
+        id SERIAL PRIMARY KEY,
+        drink_name TEXT,
+        price DECIMAL(6, 2),
+        added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
+
+client.query(`
     DROP TABLE IF EXISTS users;
     CREATE TABLE users (
         id SERIAL PRIMARY KEY,
