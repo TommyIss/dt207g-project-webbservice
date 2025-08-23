@@ -47,9 +47,14 @@ Nedan finns hur API:et används med olika metoder:
 | POST | /meals | Lägger till ny maträtt |
 | PUT | /meals/:id | Uppdaterar maträtt med specifik id |
 | DELETE | /meals/:id | Raderar maträtt med specifik id |
+| GET | /drinks | Hämtar alla drycker |
+| GET | /drinks/:id | Hämtar en dryck med specifik id |
+| POST | /drinks | Lägger till ny dryck |
+| PUT | /drinks/:id | Uppdaterar dryck med specifik id |
+| DELETE | /drinks/:id | Raderar dryck med specifik id |
 | POST | /register | Skapar ett användarkonto |
 | POST | /login | Loggar in till användarkontot |
-| GET | /protected | Hämtar skyddad route |
+| GET | /protected | Hämtar skyddad data |
 | GET | /reservations | Hämtar alla reservationer |
 | GET | /reservations/:id | Hämtar reservation med specifik id |
 | POST | /reservations | Lagrar en ny reservation |
