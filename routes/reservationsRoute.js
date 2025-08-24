@@ -142,7 +142,7 @@ router.post('/reservations', async (req, res) => {
         return;
     }
 
-    await client.query(`INSERT INTO reservations (guest_name, phone, email, guests_number, reservation_date, reservation_time)VALUES($1, $2, $3, $4, $5, $6);`, [guest_name, phone, email, guests_number, reservation_date, reservation_time], (err, result) => {
+    await client.query(`INSERT INTO reservations (guest_name, phone, email, guests_number, reservation_date, reservation_time)VALUES($1, $2, $3, $4, $5, $6) RETURNING id;`, [guest_name, phone, email, guests_number, reservation_date, reservation_time], (err, result) => {
         if(err) {
             res.status(500).json({ error: 'Något har gått fel: ' + err});
             return;
@@ -150,16 +150,18 @@ router.post('/reservations', async (req, res) => {
 
         console.log('Frågan har skapat: ' + result);
 
+        let id = result.rows[0].id;
+
         // Bekräftelse mejl
         let mailOptions = {
             from: 'tois2401@hotmail.com',
             to: email,
             subject: 'Bekräftelse på din reservation',
-            text: `Hej ${guest_name}, \n\nTack för din bokning!\n\nGästnamn: ${guest_name}.\nMobilnummer: ${phone}.\nE-post: ${email}.\nAntal gäster: ${guests_number}.\nDatum: ${reservation_date}.\nTid: ${reservation_time}.\n\nKlicka på länken om du vill ändra/avboka reservationen!\n\nVänliga hälsningar\nt&m Deli`
+            text: `Hej ${guest_name}, \n\nTack för din bokning!\n\nGästnamn: ${guest_name}.\nMobilnummer: ${phone}.\nE-post: ${email}.\nAntal gäster: ${guests_number}.\nDatum: ${reservation_date.split('T')[0]}.\nTid: ${reservation_time.slice(0, 5)}.\n\nKlicka på länken om du vill ändra/avboka:\nhttp://localhost:4200/edit-reservation/${id}\n\nVänliga hälsningar\nt&m Deli`
         };
 
         transport.sendMail(mailOptions);
-        res.status(200).json({message: 'Reservation har skapats och ett bekräftelse mejl har skickats.', reservation: result.rows});
+        res.status(200).json({message: 'Reservation har skapats och ett bekräftelse mejl har skickats.', reservation: result.rows[0]});
     });
 });
 
@@ -259,7 +261,7 @@ router.put('/reservations/:id', async (req, res) => {
                 from: 'tois2401@hotmail.com',
                 to: email,
                 subject: 'Bekräftelse på din ändring',
-                text: `Hej ${previousReservation.guest_name}, \n\nTack för din bokning!\n\nHär kommer din nya uppgifter\nAntal gäster: ${guests_number}.\nDatum: ${reservation_date}.\nTid: ${reservation_time}.\n\nVänliga hälsningar\nt&m Deli`
+                text: `Hej ${previousReservation.guest_name}, \n\nTack för din bokning!\n\nHär kommer din nya uppgifter\nAntal gäster: ${guests_number}.\nDatum: ${reservation_date.split('T')[0]}.\nTid: ${reservation_time.slice(0, 5)}.\n\nKlicka på länken om du vill ändra/avboka:\nhttp://localhost:4200/edit-reservation/${id}\n\nVänliga hälsningar\nt&m Deli`
             };
 
             transport.sendMail(mailOptions);
