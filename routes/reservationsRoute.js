@@ -157,7 +157,7 @@ router.post('/reservations', async (req, res) => {
             from: 'tois2401@hotmail.com',
             to: email,
             subject: 'Bekräftelse på din reservation',
-            text: `Hej ${guest_name}, \n\nTack för din bokning!\n\nGästnamn: ${guest_name}.\nMobilnummer: ${phone}.\nE-post: ${email}.\nAntal gäster: ${guests_number}.\nDatum: ${reservation_date.split('T')[0]}.\nTid: ${reservation_time.slice(0, 5)}.\n\nKlicka på länken om du vill ändra/avboka:\nhttp://localhost:4200/edit-reservation/${id}\n\nVänliga hälsningar\nt&m Deli`
+            text: `Hej ${guest_name}, \n\nTack för din bokning!\n\nGästnamn: ${guest_name}.\nMobilnummer: ${phone}.\nE-post: ${email}.\nAntal gäster: ${guests_number}.\nDatum: ${reservation_date.split('T')[0]}.\nTid: ${reservation_time.slice(0, 5)}.\n\nKlicka på länken om du vill ändra/avboka:\nhttps://tois-dt207g-project-frontend.netlify.app/edit-reservation/${id}\n\nVänliga hälsningar\nt&m Deli`
         };
 
         transport.sendMail(mailOptions);
@@ -261,7 +261,7 @@ router.put('/reservations/:id', async (req, res) => {
                 from: 'tois2401@hotmail.com',
                 to: email,
                 subject: 'Bekräftelse på din ändring',
-                text: `Hej ${previousReservation.guest_name}, \n\nTack för din bokning!\n\nHär kommer din nya uppgifter\nAntal gäster: ${guests_number}.\nDatum: ${reservation_date.split('T')[0]}.\nTid: ${reservation_time.slice(0, 5)}.\n\nKlicka på länken om du vill ändra/avboka:\nhttp://localhost:4200/edit-reservation/${id}\n\nVänliga hälsningar\nt&m Deli`
+                text: `Hej ${previousReservation.guest_name}, \n\nTack för din bokning!\n\nHär kommer din nya uppgifter\nAntal gäster: ${guests_number}.\nDatum: ${reservation_date.split('T')[0]}.\nTid: ${reservation_time.slice(0, 5)}.\n\nKlicka på länken om du vill ändra/avboka:\nhttps://tois-dt207g-project-frontend.netlify.app/edit-reservation/${id}\n\nVänliga hälsningar\nt&m Deli`
             };
 
             transport.sendMail(mailOptions);
