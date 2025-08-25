@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "install": "node install.js",
     "start": "node server.js"
   },
   "author": "Tommy Issa",
